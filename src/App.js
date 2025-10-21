@@ -9,23 +9,16 @@ import Blog from "./pages/Blog";
 import Quote from "./pages/Quote";
 import Admin from "./pages/Admin";
 import Dashboard from "./pages/Dashboard";
+import Header from "./components/Header";
+import axios from "axios";
+import Footer from "./components/Footer";
 
 function App() {
   return (
     <Router>
       <div>
         {/* Simple Navbar */}
-        <nav style={{ padding: "10px", background: "#f4f4f4" }}>
-          <Link to="/" style={{ margin: "10px" }}>Home</Link>
-          <Link to="/services" style={{ margin: "10px" }}>Services</Link>
-          <Link to="/about" style={{ margin: "10px" }}>About</Link>
-          <Link to="/gallery" style={{ margin: "10px" }}>Gallery</Link>
-          <Link to="/blog" style={{ margin: "10px" }}>Blog</Link>
-          <Link to="/quote" style={{ margin: "10px" }}>Get a Quote</Link>
-          <Link to="/contact" style={{ margin: "10px" }}>Contact</Link>
-          <Link to="/admin" style={{ margin: "10px" }}>Admin</Link>
-          <Link to="/dashboard" style={{ margin: "10px" }}>Dashboard</Link>
-        </nav>
+        <Header isAdmin={!!axios.defaults.auth} />
 
         {/* Page Routes */}
         <Routes>
@@ -39,6 +32,7 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
+        <Footer />
       </div>
     </Router>
   );

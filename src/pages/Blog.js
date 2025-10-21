@@ -1,19 +1,44 @@
-import React from "react";
+// src/pages/Blog.js
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Container, Typography, Card, CardContent, Grid } from "@mui/material";
 
 function Blog() {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/blogs")
+      .then((res) => setPosts(res.data))
+      .catch((err) => console.error("Failed to fetch blogs:", err));
+  }, []);
+
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Latest News</h1>
-      <article>
-        <h3>How Temporary Fencing Improves Site Safety</h3>
-        <p>Temporary fencing ensures public safety and site security...</p>
-      </article>
-      <hr />
-      <article>
-        <h3>Eco-Friendly Fencing Solutions</h3>
-        <p>We use sustainable materials for modern construction sites...</p>
-      </article>
-    </div>
+    <Container sx={{ py: 5 }}>
+      <Typography variant="h4" gutterBottom>
+        Blog
+      </Typography>
+      <Grid container spacing={3}>
+        {posts.length > 0 ? (
+          posts.map((post) => (
+            <Grid item xs={12} md={6} key={post.id}>
+              <Card sx={{ height: "100%" }}>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    {post.title}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {post.content}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))
+        ) : (
+          <Typography variant="body1">No blog posts available.</Typography>
+        )}
+      </Grid>
+    </Container>
   );
 }
 
